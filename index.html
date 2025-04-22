@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>UKK Paket 1 | Indira Dewi</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.5/dist/css/bootstrap.min.css" rel="stylesheet" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css" />
+    <style type="text/css">
+        .btn {
+            width: 100%;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container mt-5">
+        <div class="row justify-content-center">
+            <div class="col-md-4">
+                <!-- form kalkulator -->
+                <form id="calcForm" class="p-2 border rounded bg-primary-subtle">
+                    <h3 class="text-center">Mini Kalkulator</h3>
+                    <!-- input angka -->
+                    <input type="text" step="any" name="num1" id="num1" class="form-control mb-3" autocomplete="off"
+                        placeholder="Masukkan Angka Pertama" />
+                    <input type="text" step="any" name="num2" id="num2" class="form-control mb-3" autocomplete="off"
+                        placeholder="Masukkan Angka Kedua" />
+                    <!-- tombol operasi & reset -->
+                    <div class="d-flex justify-content-center gap-2 mt-2">
+                        <button type="button" class="btn btn-outline-secondary" onclick="hitung('+')" title="Tambah">
+                            <i class="fas fa-plus"></i>
+                        </button>
+                        <button type="button" class="btn btn-outline-secondary" onclick="hitung('-')" title="Kurang">
+                            <i class="fas fa-minus"></i>
+                        </button>
+                        <button type="button" class="btn btn-outline-secondary" onclick="hitung('*')" title="Kali">
+                            <i class="fas fa-xmark"></i>
+                        </button>
+                        <button type="button" class="btn btn-outline-secondary" onclick="hitung('/')" title="Bagi">
+                            <i class="fas fa-divide"></i>
+                        </button>
+                        <button type="button" class="btn btn-outline-secondary" onclick="hitung('%')" title="Persen">
+                            <i class="fas fa-percent"></i>
+                        </button>
+                        <button type="reset" class="btn btn-outline-secondary" title="Clear Entry">CE</button>
+                    </div>
+                </form>
+
+                <!-- menampilkan kalkulasi -->
+                <div class="p-2 border rounded bg-light mt-3">
+                    <h4 class="text-center" id="hasil">Hasil :</h4>
+                    <!-- tombol untuk menghapus -->
+                    <div class="row mt-2" id="mcButton" style="display: none;">
+                        <button type="button" class="btn btn-danger" onclick="resetHasil()" title="Memory Clear">MC</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <p class="text-center mt-3">&copy; UKK 2025 | Indira Dewi | XII RPL A</p>
+
+    <script>
+        //input tombol
+        function hitung(operator) {
+            const num1Input = document.getElementById('num1');
+            const num2Input = document.getElementById('num2');
+            const num1 = num1Input.value.trim();
+            const num2 = num2Input.value.trim();
+            const hasilEl = document.getElementById('hasil');
+            const mcBtn = document.getElementById('mcButton');
+
+            //kondisi jika input kosong
+            if (num1 === '' || num2 === '') {
+                alert('Input tidak boleh kosong');
+                resetForm();
+                return;
+            }
+
+            //kondisi jika input bukan angka
+            if (isNaN(num1) || isNaN(num2)) {
+                alert('Input harus berupa angka');
+                resetForm();
+                return;
+            }
+
+            const n1 = parseFloat(num1);
+            const n2 = parseFloat(num2);
+            let hasil;
+
+            //kondisi jika pembagian dengan 0
+            if (operator === '/' && n2 === 0) {
+                alert('Tidak Dapat Membagi Dengan NOL');
+                resetForm();
+                return;
+            }
+
+            //logika perhitungan
+            switch (operator) {
+                case '+':
+                    hasil = n1 + n2;
+                    break;
+                case '-':
+                    hasil = n1 - n2;
+                    break;
+                case '*':
+                    hasil = n1 * n2;
+                    break;
+                case '/':
+                    hasil = n1 / n2;
+                    break;
+                case '%':
+                    hasil = (n1 / 100) * n2;
+                    break;
+                default:
+                    hasilEl.innerText = 'Operator tidak valid';
+                    return;
+            }
+
+            //menampilkan hasil dan tombol MC
+            hasilEl.innerText = `${n1} ${operator} ${n2} = ${hasil}`;
+            mcBtn.style.display = 'block';
+
+            num1Input.value = '';
+            num2Input.value = '';
+            num1Input.focus();
+        }
+
+        //fungsi menghapus hasil
+        function resetHasil() {
+            document.getElementById('hasil').innerText = 'Hasil :';
+            document.getElementById('mcButton').style.display = 'none';
+        }
+
+        //reset form
+        function resetForm() {
+            document.getElementById('calcForm').reset();
+            resetHasil();
+            document.getElementById('num1').focus();
+        }
+    </script>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.5/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+
+</html>
